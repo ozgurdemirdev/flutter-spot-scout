@@ -1,0 +1,86 @@
+import 'package:spot_scout/widgets/main/nearby_places/nearby_place_item.dart';
+
+List<NearbyPlaceItem> generateTempList() {
+  return [
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_1.png",
+      placeName: "Şok Market",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "21:30",
+      placeScore: 3.4,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_2.png",
+      placeName: "A101 Market",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "22:00",
+      placeScore: 4.2,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_3.png",
+      placeName: "Migros",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "22:30",
+      placeScore: 4.5,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_1.png",
+      placeName: "Bim",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "21:00",
+      placeScore: 3.9,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_2.png",
+      placeName: "CarrefourSA",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "23:00",
+      placeScore: 4.0,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_3.png",
+      placeName: "Teknosa",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "20:30",
+      placeScore: 4.1,
+      placeType: "electronics",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_1.png",
+      placeName: "Yimpaş",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "22:15",
+      placeScore: 3.7,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_2.png",
+      placeName: "Kipa",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "23:30",
+      placeScore: 4.3,
+      placeType: "market",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_3.png",
+      placeName: "Vatan Bilgisayar",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "20:00",
+      placeScore: 4.6,
+      placeType: "electronics",
+    ),
+    NearbyPlaceItem(
+      imageLink: "assets/images/template/place_1.png",
+      placeName: "Evea",
+      placeDistance: NearbyPlaceItem.generateRandomDistance(),
+      placeClosingTime: "21:45",
+      placeScore: 4.2,
+      placeType: "restaurant",
+    ),
+  ];
+}

@@ -39,7 +39,7 @@ class _PlaceListState extends State<PlaceList> {
                 index: index,
               ),
               SizedBox(
-                width: 4.5.w,
+                width: 5.5.w,
               ),
             ],
           );

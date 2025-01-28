@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spot_scout/settings.dart';
@@ -51,6 +52,8 @@ class MaxDistance extends StatelessWidget {
   }
 }
 
+TextEditingController distanceInputController = TextEditingController();
+
 class DistanceInput extends StatelessWidget {
   const DistanceInput({
     super.key,
@@ -61,6 +64,11 @@ class DistanceInput extends StatelessWidget {
     return TextField(
       cursorHeight: 1.7.h,
       cursorColor: Colors.white70,
+      keyboardType: TextInputType.number,
+      controller: distanceInputController,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
       decoration: InputDecoration(
         hintText: "1000",
         hintStyle: GoogleFonts.nunito(

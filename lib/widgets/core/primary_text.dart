@@ -40,6 +40,7 @@ class PrimaryText extends StatelessWidget {
               },
               child: Text(text,
                   textAlign: textAlign ?? TextAlign.start,
+                  overflow: TextOverflow.fade,
                   style: GoogleFonts.nunito(
                     textStyle: Theme.of(context).textTheme.displayMedium,
                     fontSize: fontSize ?? 20.sp,

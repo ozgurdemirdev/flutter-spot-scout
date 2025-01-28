@@ -5,6 +5,7 @@ import 'package:spot_scout/widgets/core/primary_dropdown.dart';
 import 'package:spot_scout/widgets/core/primary_text.dart';
 import 'package:spot_scout/widgets/core/card_container.dart';
 
+//Google nearbysearch desteklemediği için kaldırıldı
 class WorkStatus extends StatelessWidget {
   const WorkStatus({
     super.key,

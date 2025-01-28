@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+const String googlePlaceApiKey = "AIzaSyADd4cuSv13TkwFVwE7nF0bsTXiE5HhumM";
+//Default Values
+int searchDistance = 300;
+int searchOpenNow = 2;
+String searchType = "";
+
 const Color mainColor = Color.fromRGBO(252, 173, 93, 1);
 const Color mainColorSoft = Color.fromRGBO(255, 211, 168, 1);
 const Color appBgColor = Color.fromRGBO(255, 201, 111, 1);
@@ -27,10 +33,10 @@ const Color iconDistanceColor = Color.fromRGBO(253, 198, 10, 1);
 const Color iconTimeColor = Color.fromRGBO(242, 94, 192, 1);
 
 final Map<String, Color> iconColors = {
-  'market': iconMarketColor,
+  'supermarket': iconMarketColor,
   'restaurant': iconRestaurantColor,
   'cafe': iconCafeColor,
-  'taxi': iconTaxiColor,
+  'taxi_stand': iconTaxiColor,
   'pharmacy': iconPharmacyColor,
   'parking': iconParkingColor,
   'phone': iconPhoneColor,
@@ -40,10 +46,10 @@ final Map<String, Color> iconColors = {
 };
 
 final List<List> allPlaces = [
-  ["market", "Market"],
+  ["supermarket", "Market"],
   ["restaurant", "Restoran"],
   ["cafe", "Kafe"],
-  ["taxi", "Taksi"],
+  ["taxi_stand", "Taksi"],
   ["pharmacy", "Eczane"],
   ["parking", "Otopark"],
 ];

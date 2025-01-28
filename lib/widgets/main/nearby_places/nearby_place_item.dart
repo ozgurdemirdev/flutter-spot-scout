@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spot_scout/routers.dart';
@@ -16,27 +14,21 @@ class NearbyPlaceItem extends StatelessWidget {
     required this.imageLink,
     required this.placeName,
     required this.placeDistance,
-    required this.placeClosingTime,
     required this.placeScore,
     required this.placeType,
+    required this.isOpen,
   });
 
   final String imageLink;
   final String placeName;
-  final String placeDistance;
-  final String placeClosingTime;
+  final int placeDistance;
   final double placeScore;
   final String placeType;
-
-  static String generateRandomDistance() {
-    Random random = Random();
-    int distance =
-        random.nextInt(2000) + 100; // 100 m ile 2000 m arasında rastgele mesafe
-    return "$distance m";
-  }
+  final bool? isOpen;
 
   @override
   Widget build(BuildContext context) {
+    int nearbyDistance = placeDistance + ((placeDistance * 30) ~/ 100);
     return CardContainer(
       height: 15.h,
       width: 100.w,
@@ -47,7 +39,7 @@ class NearbyPlaceItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(cardRadiusD),
           overlayColor: WidgetStatePropertyAll(mainColor.withAlpha(150)),
           onTap: () {
-            OpenDetailScreen(context);
+            openDetailScreen(context);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,14 +49,15 @@ class NearbyPlaceItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: cardRadius, bottomLeft: cardRadius),
-                    child: Image.asset(
-                      imageLink,
-                      fit: BoxFit.cover,
-                      width: 25.w,
-                      height: 100.h,
+                  Container(
+                    width: 25.w,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                        color: iconColors[placeType],
+                        borderRadius: BorderRadius.only(
+                            topLeft: cardRadius, bottomLeft: cardRadius)),
+                    child: Center(
+                      child: CircleIconBg(iconName: placeType, size: 7.h),
                     ),
                   ),
                   SizedBox(
@@ -79,7 +72,9 @@ class NearbyPlaceItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           PrimaryText(
-                            text: placeName,
+                            text: placeName.length > 20
+                                ? truncatePlaceName(placeName)
+                                : placeName,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w700,
                           ),
@@ -92,12 +87,15 @@ class NearbyPlaceItem extends StatelessWidget {
                         ],
                       ),
                       InfoContainer(
-                        title: "Uzaklık",
-                        info: placeDistance,
+                        title: "Yürüyüş ile",
+                        info:
+                            '${(placeDistance / 61.9).ceil()} - ${(nearbyDistance / 61.9).ceil()} dk',
                       ),
                       InfoContainer(
-                        title: "Kapanış Saati",
-                        info: placeClosingTime,
+                        title: "Yaklaşık Uzaklık",
+                        info: placeDistance < 1000
+                            ? '$placeDistance - $nearbyDistance m'
+                            : '${(placeDistance / 1000).toStringAsFixed(1)} - ${(nearbyDistance / 1000).toStringAsFixed(1)} km',
                       ),
                     ],
                   )
@@ -111,16 +109,23 @@ class NearbyPlaceItem extends StatelessWidget {
                   children: [
                     CardContainer(
                         height: 2.5.h,
-                        color: successColor,
+                        color: isOpen == null
+                            ? warningColor
+                            : ((isOpen ?? false) ? successColor : errorColor),
                         isShadow: false,
                         width: 12.w,
+                        padding: EdgeInsets.all(0.2.h),
                         borderRadius: BorderRadius.circular(5),
                         child: Center(
-                            child: PrimaryText(
-                          text: "Açık",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          textColor: secondTextColor,
+                            child: FittedBox(
+                          child: PrimaryText(
+                            text: isOpen == null
+                                ? "Bilinmiyor"
+                                : ((isOpen ?? false) ? "Açık" : "Kapalı"),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            textColor: secondTextColor,
+                          ),
                         ))),
                     Row(
                       children: [
@@ -138,7 +143,7 @@ class NearbyPlaceItem extends StatelessWidget {
                           iconName: "eye",
                           color: mainColor,
                           onTapFunc: () {
-                            OpenDetailScreen(context);
+                            openDetailScreen(context);
                           },
                         ),
                       ],
@@ -152,4 +157,14 @@ class NearbyPlaceItem extends StatelessWidget {
       ),
     );
   }
+}
+
+String truncatePlaceName(String placeName) {
+  if (placeName.length > 20) {
+    int lastSpaceIndex = placeName.substring(0, 16).lastIndexOf(' ');
+    return lastSpaceIndex != -1
+        ? placeName.substring(0, lastSpaceIndex)
+        : placeName.substring(0, 16);
+  }
+  return '$placeName...';
 }

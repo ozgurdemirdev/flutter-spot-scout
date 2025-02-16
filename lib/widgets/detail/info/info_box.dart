@@ -12,15 +12,17 @@ class InfoBox extends StatelessWidget {
     required this.title,
     required this.info,
     required this.iconName,
+    this.height,
   });
   final String title;
   final String info;
   final String iconName;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 4.h,
+      height: height ?? 4.h,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -30,23 +32,26 @@ class InfoBox extends StatelessWidget {
           SizedBox(
             width: 2.w,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PrimaryText(
-                text: title,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                textColor: Colors.black54,
-              ),
-              PrimaryText(
-                text: info,
-                fontSize: 15.5.sp,
-                fontWeight: FontWeight.w600,
-                textColor: mainTextColor,
-              )
-            ],
+          SizedBox(
+            width: 70.w,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PrimaryText(
+                  text: title,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  textColor: Colors.black54,
+                ),
+                PrimaryText(
+                  text: info,
+                  fontSize: 15.5.sp,
+                  fontWeight: FontWeight.w600,
+                  textColor: mainTextColor,
+                )
+              ],
+            ),
           )
         ],
       ),

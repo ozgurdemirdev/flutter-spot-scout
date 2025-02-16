@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spot_scout/models/places_model.dart';
 import 'package:spot_scout/services/nearby_places_api.dart';
 import 'package:spot_scout/settings.dart';
+import 'package:spot_scout/widgets/core/primary_dropdown.dart';
 import 'package:spot_scout/widgets/core/primary_text.dart';
 import 'package:spot_scout/widgets/main/max_distance.dart';
 import 'package:spot_scout/widgets/main/nearby_places/nearby_place_item.dart';
@@ -36,14 +37,14 @@ class _NearbyPlacesListState extends State<NearbyPlacesList> {
             );
           }
           if (snapshot.hasError) {
-            print(snapshot.error);
-            return const SearchNotFound();
+            return const NearbyNotFound();
           }
           if (snapshot.hasData) {
             AllPlacesData? nearbyPlaces = snapshot.data;
             if (nearbyPlaces == null || nearbyPlaces.places.isEmpty) {
-              return const SearchNotFound();
+              return const NearbyNotFound();
             }
+
             nearbyPlaces.places.sort((a, b) {
               double distanceA =
                   a.geometry?.location?.distance ?? double.infinity;
@@ -52,9 +53,19 @@ class _NearbyPlacesListState extends State<NearbyPlacesList> {
               return distanceA.compareTo(distanceB);
             });
 
+            if (selectedDropItem != 0) {
+              bool openNow = selectedDropItem == 1 ? true : false;
+              nearbyPlaces.places.removeWhere(
+                  (place) => place.openingHours!.openNow != openNow);
+            }
+
             Places firstPlace = nearbyPlaces.places[0];
             if (nearbyPlaces.places.length > 1) {
               nearbyPlaces.places.removeAt(0);
+            }
+
+            if (nearbyPlaces.places.isEmpty) {
+              return const NearbyNotFound();
             }
 
             return SingleChildScrollView(
@@ -80,6 +91,7 @@ class _NearbyPlacesListState extends State<NearbyPlacesList> {
                     placeScore: firstPlace.rating ?? 0,
                     isOpen: firstPlace.openingHours!.openNow,
                     placeType: searchType,
+                    placeID: firstPlace.placeId ?? "",
                   ),
                   SizedBox(
                     height: 2.h,
@@ -107,6 +119,7 @@ class _NearbyPlacesListState extends State<NearbyPlacesList> {
                                     placeScore: place.rating ?? 0,
                                     isOpen: place.openingHours!.openNow,
                                     placeType: searchType,
+                                    placeID: place.placeId ?? "",
                                   ),
                                   SizedBox(
                                     height: 1.h,
@@ -118,8 +131,22 @@ class _NearbyPlacesListState extends State<NearbyPlacesList> {
               ),
             );
           } else {
-            return const SearchNotFound();
+            return const NearbyNotFound();
           }
         });
+  }
+}
+
+class NearbyNotFound extends StatelessWidget {
+  const NearbyNotFound({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const SearchNotFound(
+      title: "Bu Mesafede Bir Mekan Bulamadık",
+      secondTitle: "Mesafeyi arttırıp tekrar deneyin",
+    );
   }
 }

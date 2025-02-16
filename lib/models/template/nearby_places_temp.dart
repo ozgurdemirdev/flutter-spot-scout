@@ -9,6 +9,7 @@ List<NearbyPlaceItem> generateTempList() {
       placeScore: 3.4,
       isOpen: false,
       placeType: "supermarket",
+      placeID: "",
     ),
   ];
 }

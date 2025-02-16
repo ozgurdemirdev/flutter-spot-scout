@@ -7,11 +7,13 @@ import 'package:spot_scout/widgets/core/place_icon.dart';
 import 'package:spot_scout/widgets/core/primary_text.dart';
 import 'package:spot_scout/widgets/main/nearby_places/info_container.dart';
 import 'package:spot_scout/widgets/main/nearby_places/place_score.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NearbyPlaceItem extends StatelessWidget {
   const NearbyPlaceItem({
     super.key,
     required this.imageLink,
+    required this.placeID,
     required this.placeName,
     required this.placeDistance,
     required this.placeScore,
@@ -20,6 +22,7 @@ class NearbyPlaceItem extends StatelessWidget {
   });
 
   final String imageLink;
+  final String placeID;
   final String placeName;
   final int placeDistance;
   final double placeScore;
@@ -39,7 +42,7 @@ class NearbyPlaceItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(cardRadiusD),
           overlayColor: WidgetStatePropertyAll(mainColor.withAlpha(150)),
           onTap: () {
-            openDetailScreen(context);
+            openDetailScreen(context, placeID, placeType);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +60,11 @@ class NearbyPlaceItem extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                             topLeft: cardRadius, bottomLeft: cardRadius)),
                     child: Center(
-                      child: CircleIconBg(iconName: placeType, size: 7.h),
+                      child: CircleIconBg(
+                        iconName: placeType,
+                        size: 7.h,
+                        name: allPlacesName[placeType],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -133,7 +140,16 @@ class NearbyPlaceItem extends StatelessWidget {
                           size: 3.5.h,
                           iconName: "location",
                           color: mainColor,
-                          onTapFunc: () {},
+                          onTapFunc: () async {
+                            final Uri googleMapsUrl = Uri.parse(
+                                "https://www.google.com/maps/search/?api=1&query=Google&query_place_id=$placeID");
+
+                            if (await canLaunchUrl(googleMapsUrl)) {
+                              await launchUrl(googleMapsUrl);
+                            } else {
+                              throw 'Google Maps açılamadı';
+                            }
+                          },
                         ),
                         SizedBox(
                           width: 1.w,
@@ -143,7 +159,7 @@ class NearbyPlaceItem extends StatelessWidget {
                           iconName: "eye",
                           color: mainColor,
                           onTapFunc: () {
-                            openDetailScreen(context);
+                            openDetailScreen(context, placeID, placeType);
                           },
                         ),
                       ],

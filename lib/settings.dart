@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 const String googlePlaceApiKey = "AIzaSyADd4cuSv13TkwFVwE7nF0bsTXiE5HhumM";
 //Default Values
-int searchDistance = 300;
+int searchDistance = 1000;
 int searchOpenNow = 2;
 String searchType = "";
 
@@ -53,6 +53,15 @@ final List<List> allPlaces = [
   ["pharmacy", "Eczane"],
   ["parking", "Otopark"],
 ];
+
+final Map<String, String> allPlacesName = {
+  'supermarket': "Market",
+  'restaurant': "Restoran",
+  'cafe': "Kafe",
+  'taxi_stand': "Taksi",
+  'pharmacy': "Eczane",
+  'parking': "Otopark",
+};
 
 double mainPadding = 1.5.h;
 double innerPaddingH = 5.h;

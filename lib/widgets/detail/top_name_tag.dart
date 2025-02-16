@@ -4,12 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spot_scout/settings.dart';
 import 'package:spot_scout/widgets/core/card_container.dart';
+import 'package:spot_scout/widgets/core/place_icon.dart';
 import 'package:spot_scout/widgets/core/primary_text.dart';
 
 class TopNameTag extends StatelessWidget {
   const TopNameTag({
     super.key,
+    required this.name,
+    required this.isOpen,
+    required this.rating,
+    required this.placeType,
   });
+  final String name;
+  final String placeType;
+  final bool? isOpen;
+  final double rating;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +46,15 @@ class TopNameTag extends StatelessWidget {
                       height: 6.h,
                       width: 6.h,
                       padding: EdgeInsets.all(2.w),
-                      color: successColor,
+                      color: isOpen == null
+                          ? warningColor
+                          : ((isOpen ?? false) ? successColor : errorColor),
                       child: Center(
                           child: FittedBox(
                         child: PrimaryText(
-                          text: "Açık",
+                          text: isOpen == null
+                              ? "Bilinmiyor"
+                              : ((isOpen ?? false) ? "Açık" : "Kapalı"),
                           fontSize: 17.sp,
                           fontWeight: FontWeight.w800,
                           textColor: secondTextColor,
@@ -55,7 +68,7 @@ class TopNameTag extends StatelessWidget {
                       color: warningColor,
                       child: Center(
                           child: PrimaryText(
-                        text: "3.5",
+                        text: rating.toString(),
                         fontSize: 17.sp,
                         fontWeight: FontWeight.w800,
                         textColor: secondTextColor,
@@ -69,7 +82,7 @@ class TopNameTag extends StatelessWidget {
                   children: [
                     FittedBox(
                       child: PrimaryText(
-                        text: "Şok Market",
+                        text: name,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w900,
                       ),
@@ -86,7 +99,7 @@ class TopNameTag extends StatelessWidget {
                   child: CardContainer(
                       height: 3.5.h,
                       padding: EdgeInsets.all(0.5.h),
-                      color: iconColors['market'],
+                      color: iconColors[placeType],
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,15 +108,16 @@ class TopNameTag extends StatelessWidget {
                           SizedBox(
                             width: 0.5.h,
                           ),
-                          Image.asset(
-                            "assets/images/icons/market.png",
-                            fit: BoxFit.contain,
+                          IconWithNoBg(
+                            errorName: "X",
+                            iconName: placeType,
+                            iconSize: 1.5.h,
                           ),
                           SizedBox(
                             width: 1.w,
                           ),
                           PrimaryText(
-                            text: "Market",
+                            text: allPlacesName[placeType] ?? "",
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
                             textColor: secondTextColor,

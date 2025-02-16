@@ -52,6 +52,8 @@ class PrimaryText extends StatelessWidget {
           )
         : Text(text,
             textAlign: textAlign ?? TextAlign.start,
+            softWrap: true,
+            overflow: TextOverflow.visible,
             style: GoogleFonts.nunito(
               textStyle: Theme.of(context).textTheme.displayMedium,
               fontSize: fontSize ?? 18.sp,

@@ -23,9 +23,9 @@ Future<String> getUserPosition() async {
 }
 
 Future<Location> getUserLocation() async {
-  Position userPosition = await Geolocator.getCurrentPosition();
-  double latitude = userPosition.latitude;
-  double longitude = userPosition.longitude;
+  Position pos = await Geolocator.getCurrentPosition();
+  double latitude = pos.latitude;
+  double longitude = pos.longitude;
   Location userLoc = Location(lat: latitude, lng: longitude);
   return userLoc;
 }
